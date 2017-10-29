@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<style>
+		#circle{width: 500px; border-radius: 50%; height: 500px; margin: 45px 0 0 370px; padding: 20px 0 0 20px;}
+		.dots{position: absolute; width: 5px; height: 5px; border-radius: 50%; background-color: black;}
+	</style>
+</head>
+<body>
+	<!-- simply for the sake of helping with dot alignment, will be invisible -->
+	<div id="circle"></div> 
+	<script>
+		var numDots = 50;
+		for(var i = 0; i < numDots; i++){
+			var theta = ((Math.PI * 2) / numDots) * i;
+			var x = 630 + (Math.cos(theta) * 280);
+			var y = 295 - (Math.sin(theta) * 280);
+			document.body.innerHTML += '<div class="dots" style="top:' + y + 'px; left:' + x + 'px;"></div>';
+		}
+	</script>
+</body>
+</html>
