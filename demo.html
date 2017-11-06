@@ -2,21 +2,39 @@
 <html>
 <head>
 	<style>
-		#circle{width: 500px; border-radius: 50%; height: 500px; margin: 45px 0 0 370px; padding: 20px 0 0 20px;}
-		.dots{position: absolute; width: 5px; height: 5px; border-radius: 50%; background-color: black;}
+		body{margin: 0; padding: 0;}
 	</style>
 </head>
 <body>
-	<!-- simply for the sake of helping with dot alignment, will be invisible -->
-	<div id="circle"></div> 
+	<canvas id="canvas"></canvas>
 	<script>
-		var numDots = 50;
+		var canvas = document.getElementById('canvas');
+		var ctx = canvas.getContext('2d');
+		var width = window.innerWidth;
+		var height = window.innerHeight;
+		
+		canvas.width = width;
+		canvas.height = height;
+
+		ctx.fillStyle = "gray";
+		ctx.beginPath();
+		ctx.arc(width/2, height/2, 5, 0, 2 * Math.PI);	
+		//ctx.fill();
+		ctx.stroke();
+	
+		var numDots = 25;
+		var majorCircleRad = height * 0.4;
+		var minorCirclesRad = 3;
+	
 		for(var i = 0; i < numDots; i++){
 			var theta = ((Math.PI * 2) / numDots) * i;
-			var x = 630 + (Math.cos(theta) * 280);
-			var y = 295 - (Math.sin(theta) * 280);
-			document.body.innerHTML += '<div class="dots" style="top:' + y + 'px; left:' + x + 'px;"></div>';
+			var x = (width/2) + (Math.cos(theta) * majorCircleRad);
+			var y = (height/2) - (Math.sin(theta) * majorCircleRad);
+			ctx.beginPath();
+			ctx.arc(x, y, minorCirclesRad, 0, 2 * Math.PI);
+			ctx.fill();	
 		}
+		
 	</script>
 </body>
 </html>
