@@ -8,6 +8,8 @@
 <body>
 	<canvas id="canvas"></canvas>
 	<script>
+		var dots = [];
+
 		var canvas = document.getElementById('canvas');
 		var ctx = canvas.getContext('2d');
 		var width = window.innerWidth;
@@ -17,24 +19,55 @@
 		canvas.height = height;
 
 		ctx.fillStyle = "gray";
-		ctx.beginPath();
-		ctx.arc(width/2, height/2, 5, 0, 2 * Math.PI);	
-		//ctx.fill();
-		ctx.stroke();
 	
-		var numDots = 25;
+		var numDots = 16*2;
 		var majorCircleRad = height * 0.4;
 		var minorCirclesRad = 3;
-	
-		for(var i = 0; i < numDots; i++){
+
+		makeDots(width/2, height/2, numDots, minorCirclesRad, majorCircleRad);
+		drawDots(minorCirclesRad);	
+		
+		for(var i = 0; i < numDots / 2; i++){
 			var theta = ((Math.PI * 2) / numDots) * i;
 			var x = (width/2) + (Math.cos(theta) * majorCircleRad);
 			var y = (height/2) - (Math.sin(theta) * majorCircleRad);
+			var oppX = (width/2) - (Math.cos(theta) * majorCircleRad); 
+			var oppY = (height/2) + (Math.sin(theta) * majorCircleRad);
 			ctx.beginPath();
-			ctx.arc(x, y, minorCirclesRad, 0, 2 * Math.PI);
-			ctx.fill();	
+			ctx.moveTo(x, y);
+			ctx.lineTo(oppX, oppY);
+			ctx.stroke();
 		}
+		/*
+		ctx.beginPath();
+		ctx.moveTo(width/2, (height/2) - majorCircleRad);
+		ctx.lineTo(width/2, (height/2) + majorCircleRad);
+		ctx.stroke();	*/
+
+
+		function makeDots(centerX, centerY, numDots, smallCircleRad, bigCircleRad){
+			for(var i = 0; i < numDots; i++){
+				var theta = ((Math.PI * 2) / numDots) * i;
+				var x = centerX + (Math.cos(theta) * bigCircleRad);
+				var y = centerY - (Math.sin(theta) * bigCircleRad);
+				dots.push({x: x, y: y});
+			}
+		}
+
+		function drawDots(radius){
+			ctx.fillStyle = "#fff";
+			ctx.fillRect(0, 0, width, height);
 		
+			ctx.fillStyle = "gray";	
+			for(var i = 0; i < dots.length; i++){
+				var circle = dots[i];
+				ctx.beginPath();
+				ctx.arc(circle.x, circle.y, radius, 0, 2 * Math.PI);
+				ctx.fill();
+			}
+					
+		}	
+
 	</script>
 </body>
 </html>
