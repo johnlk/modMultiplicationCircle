@@ -26,7 +26,7 @@
 
 		makeDots(width/2, height/2, numDots, minorCirclesRad, majorCircleRad);
 		drawDots(minorCirclesRad);	
-		drawLiens(majorCircleRad);	
+		drawLines();	
 
 		function makeDots(centerX, centerY, numDots, smallCircleRad, bigCircleRad){
 			for(var i = 0; i < numDots; i++){
@@ -50,17 +50,12 @@
 			}
 		}	
 
-		function drawLines(circleRadius){
+		function drawLines(){
 			for(var i = 0; i < numDots / 2; i++){
-				/*var theta = ((Math.PI * 2) / numDots) * i;
-				var x = (width/2) + (Math.cos(theta) * majorCircleRad);
-				var y = (height/2) - (Math.sin(theta) * majorCircleRad);*/
-				var dot = numDots[i];
-				/*var oppX = (width/2) - (Math.cos(theta) * majorCircleRad); 
-				var oppY = (height/2) + (Math.sin(theta) * majorCircleRad);*/
+				var dot = dots[i];
 				ctx.beginPath();
 				ctx.moveTo(dot.x, dot.y);
-				ctx.lineTo(oppX, oppY);
+				ctx.lineTo(dots[i + (numDots/2)].x, dots[i + (numDots/2)].y);
 				ctx.stroke();
 			}
 		}
