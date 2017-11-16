@@ -3,16 +3,28 @@
 <head>
 	<style>
 		body{margin: 0; padding: 0;}
+		#numCircles{position: absolute; left: 60%; top: 25%;}
+		#modNum{position: absolute; left: 60%; top: 45%;}
 	</style>
 </head>
 <body>
 	<canvas id="canvas"></canvas>
+	<div id="numCircles">
+		<p>Num Circles:</p>
+		<input type="range" value="32" min="8" max="500" step="1">
+		<span class="sliderOutput">32</span>
+	</div>
+	<div id="modNum">
+		<p>Modulus Number:</p>
+		<input type="range" value="2" min="2" max="200" step="1">
+		<span class="sliderOutput">2</span>
+	</div>
 	<script>
 		var dots = [];
 
 		var canvas = document.getElementById('canvas');
 		var ctx = canvas.getContext('2d');
-		var width = window.innerWidth;
+		var width = window.innerWidth * 0.6;
 		var height = window.innerHeight;
 		
 		canvas.width = width;
@@ -20,14 +32,16 @@
 
 		ctx.fillStyle = "gray";
 	
-		var numDots = 16*2;
+		var numDots = 16*4;
+		var modNum = 2;
+
 		var majorCircleRad = height * 0.4;
 		var minorCirclesRad = 3;
 
 		makeDots(width/2, height/2, numDots, minorCirclesRad, majorCircleRad);
 		drawDots(minorCirclesRad);	
 		//multiplier
-		drawLines(2);	
+		drawLines(modNum);	
 
 		function makeDots(centerX, centerY, numDots, smallCircleRad, bigCircleRad){
 			for(var i = 0; i < numDots; i++){
@@ -56,10 +70,10 @@
 		function drawLines(multiplier){
 			for(var i = 0; i < dots.length / 2; i++){
 				var dot = dots[i];
-				if(i*multiplier >= dots.length){
+				/*if(i*multiplier >= dots.length){
 					return;
-				}
-				var connectingDot = dots[i*multiplier];
+				}*/
+				var connectingDot = dots[(i*multiplier) % dots.length];
 				ctx.beginPath();
 				ctx.moveTo(dot.x, dot.y);
 				ctx.lineTo(connectingDot.x, connectingDot.y);
