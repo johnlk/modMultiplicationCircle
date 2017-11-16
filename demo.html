@@ -26,7 +26,8 @@
 
 		makeDots(width/2, height/2, numDots, minorCirclesRad, majorCircleRad);
 		drawDots(minorCirclesRad);	
-		//drawLines();	
+		//multiplier
+		drawLines(2);	
 
 		function makeDots(centerX, centerY, numDots, smallCircleRad, bigCircleRad){
 			for(var i = 0; i < numDots; i++){
@@ -39,9 +40,10 @@
 		}
 
 		function drawDots(radius){
+			//clear canvas
 			ctx.fillStyle = "#fff";
 			ctx.fillRect(0, 0, width, height);
-		
+			//draw dots	
 			ctx.fillStyle = "gray";	
 			for(var i = 0; i < dots.length; i++){
 				var circle = dots[i];
@@ -51,12 +53,16 @@
 			}
 		}	
 
-		function drawLines(){
+		function drawLines(multiplier){
 			for(var i = 0; i < dots.length / 2; i++){
 				var dot = dots[i];
+				if(i*multiplier >= dots.length){
+					return;
+				}
+				var connectingDot = dots[i*multiplier];
 				ctx.beginPath();
 				ctx.moveTo(dot.x, dot.y);
-				ctx.lineTo(dots[i + (numDots/2)].x, dots[i + (numDots/2)].y);
+				ctx.lineTo(connectingDot.x, connectingDot.y);
 				ctx.stroke();
 			}
 		}
