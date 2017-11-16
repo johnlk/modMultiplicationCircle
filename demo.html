@@ -3,21 +3,21 @@
 <head>
 	<style>
 		body{margin: 0; padding: 0;}
-		#numCircles{position: absolute; left: 60%; top: 25%;}
-		#modNum{position: absolute; left: 60%; top: 45%;}
+		#numCircles{position: absolute; left: 65%; top: 25%;}
+		#modNum{position: absolute; left: 65%; top: 45%;}
 	</style>
 </head>
 <body>
 	<canvas id="canvas"></canvas>
 	<div id="numCircles">
 		<p>Num Circles:</p>
-		<input type="range" value="32" min="8" max="500" step="1">
-		<span class="sliderOutput">32</span>
+		<input id="numCSlider" type="range" value="368" min="8" max="500" step="1">
+		<span class="sliderOutput">368</span>
 	</div>
 	<div id="modNum">
 		<p>Modulus Number:</p>
-		<input type="range" value="2" min="2" max="200" step="1">
-		<span class="sliderOutput">2</span>
+		<input id="modNSlider" type="range" value="118" min="2" max="200" step="1">
+		<span class="sliderOutput">118</span>
 	</div>
 	<script>
 		var dots = [];
@@ -26,14 +26,18 @@
 		var ctx = canvas.getContext('2d');
 		var width = window.innerWidth * 0.6;
 		var height = window.innerHeight;
+
+		var numCircleSlider = document.getElementById('numCSlider');
+		var modNumSlider = document.getElementById('modNSlider');
+
 		
 		canvas.width = width;
 		canvas.height = height;
 
 		ctx.fillStyle = "gray";
 	
-		var numDots = 16*4;
-		var modNum = 2;
+		var numDots = 368;
+		var modNum = 118;
 
 		var majorCircleRad = height * 0.4;
 		var minorCirclesRad = 3;
@@ -42,6 +46,26 @@
 		drawDots(minorCirclesRad);	
 		//multiplier
 		drawLines(modNum);	
+
+		numCircleSlider.addEventListener('click', function(){
+			numDots = numCircleSlider.value;
+			document.getElementsByClassName('sliderOutput')[0].innerHTML = numDots;
+
+			dots = [];
+			makeDots(width/2, height/2, numDots, minorCirclesRad, majorCircleRad);
+			drawDots(minorCirclesRad);	
+			//multiplier
+			drawLines(modNum);	
+		});
+
+		modNumSlider.addEventListener('click', function(){
+			modNum = modNumSlider.value;
+			document.getElementsByClassName('sliderOutput')[1].innerHTML = modNum;
+
+			drawDots(minorCirclesRad);	
+			//multiplier
+			drawLines(modNum);	
+		});
 
 		function makeDots(centerX, centerY, numDots, smallCircleRad, bigCircleRad){
 			for(var i = 0; i < numDots; i++){
