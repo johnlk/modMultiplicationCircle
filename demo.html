@@ -47,7 +47,7 @@
 		//multiplier
 		drawLines(modNum);	
 
-		numCircleSlider.addEventListener('click', function(){
+		numCircleSlider.addEventListener('onchange', function(){
 			numDots = numCircleSlider.value;
 			document.getElementsByClassName('sliderOutput')[0].innerHTML = numDots;
 
@@ -58,7 +58,7 @@
 			drawLines(modNum);	
 		});
 
-		modNumSlider.addEventListener('click', function(){
+		modNumSlider.addEventListener('onchange', function(){
 			modNum = modNumSlider.value;
 			document.getElementsByClassName('sliderOutput')[1].innerHTML = modNum;
 
