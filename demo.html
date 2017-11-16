@@ -26,11 +26,12 @@
 
 		makeDots(width/2, height/2, numDots, minorCirclesRad, majorCircleRad);
 		drawDots(minorCirclesRad);	
-		drawLines();	
+		//drawLines();	
 
 		function makeDots(centerX, centerY, numDots, smallCircleRad, bigCircleRad){
 			for(var i = 0; i < numDots; i++){
-				var theta = ((Math.PI * 2) / numDots) * i;
+				//clockwise from the top, also offset by 1 the first starts at 1 o' clock not 12
+				var theta = (Math.PI / 2) - (((Math.PI * 2) / numDots) * (i+1));//this now goes from pi/2 to -5pi/2 
 				var x = centerX + (Math.cos(theta) * bigCircleRad);
 				var y = centerY - (Math.sin(theta) * bigCircleRad);
 				dots.push({x: x, y: y});
@@ -51,7 +52,7 @@
 		}	
 
 		function drawLines(){
-			for(var i = 0; i < numDots / 2; i++){
+			for(var i = 0; i < dots.length / 2; i++){
 				var dot = dots[i];
 				ctx.beginPath();
 				ctx.moveTo(dot.x, dot.y);
