@@ -49,7 +49,7 @@
 		drawLines(modNum);	
 
 		numCircleSlider.onchange = function(){	
-			numDots = numCircleSlider.value;
+			numDots = parseInt(this.value);
 			document.getElementsByClassName('sliderOutput')[0].innerHTML = numDots;
 
 			dots = [];
@@ -60,7 +60,7 @@
 		}
 
 		modNumSlider.onchange = function(){
-			modNum = modNumSlider.value;
+			modNum = parseInt(this.value);
 			document.getElementsByClassName('sliderOutput')[1].innerHTML = modNum;
 
 			drawDots(minorCirclesRad);	
