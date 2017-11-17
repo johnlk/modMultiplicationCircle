@@ -83,7 +83,7 @@
 		var animateDirection = 1;//this is how quickly it steps
 		
 		function stepMod(){
-			if(modNum == 2 || modNum == 70){
+			if((modNum <= 2 && animateDirection < 0) || (modNum >= 70 && animateDirection > 0)){
 				animateDirection *= -1;
 			}
 			modNum += animateDirection;
