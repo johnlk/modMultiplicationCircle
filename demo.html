@@ -5,20 +5,22 @@
 		body{margin: 0; padding: 0;}
 		#numCircles{position: absolute; left: 65%; top: 25%;}
 		#modNum{position: absolute; left: 65%; top: 45%;}
+		#animate{position: absolute; left: 65%; top: 65%;}
 	</style>
 </head>
 <body>
 	<canvas id="canvas"></canvas>
 	<div id="numCircles">
 		<p>Num Circles:</p>
-		<input id="numCSlider" type="range" value="368" min="8" max="500" step="1">
-		<span class="sliderOutput">368</span>
+		<input id="numCSlider" type="range" value="100" min="4" max="250" step="1">
+		<span class="sliderOutput">100</span>
 	</div>
 	<div id="modNum">
 		<p>Modulus Number:</p>
-		<input id="modNSlider" type="range" value="118" min="2" max="200" step="1">
-		<span class="sliderOutput">118</span>
+		<input id="modNSlider" type="range" value="3" min="2" max="70" step="1">
+		<span class="sliderOutput">3</span>
 	</div>
+	<button id="animate">Animate</button>
 	<script>
 		var dots = [];
 
@@ -29,25 +31,24 @@
 
 		var numCircleSlider = document.getElementById('numCSlider');
 		var modNumSlider = document.getElementById('modNSlider');
-
+		var animateButton = document.getElementById('animate');
 		
 		canvas.width = width;
 		canvas.height = height;
 
 		ctx.fillStyle = "gray";
 	
-		var numDots = 368;
-		var modNum = 118;
+		var numDots = 100;
+		var modNum = 3;
 
 		var majorCircleRad = height * 0.4;
 		var minorCirclesRad = 3;
 
 		makeDots(width/2, height/2, numDots, minorCirclesRad, majorCircleRad);
 		drawDots(minorCirclesRad);	
-		//multiplier
 		drawLines(modNum);	
 
-		numCircleSlider.addEventListener('onchange', function(){
+		numCircleSlider.onchange = function(){	
 			numDots = numCircleSlider.value;
 			document.getElementsByClassName('sliderOutput')[0].innerHTML = numDots;
 
@@ -56,16 +57,43 @@
 			drawDots(minorCirclesRad);	
 			//multiplier
 			drawLines(modNum);	
-		});
+		}
 
-		modNumSlider.addEventListener('onchange', function(){
+		modNumSlider.onchange = function(){
 			modNum = modNumSlider.value;
 			document.getElementsByClassName('sliderOutput')[1].innerHTML = modNum;
 
 			drawDots(minorCirclesRad);	
 			//multiplier
 			drawLines(modNum);	
+		}
+
+		var interval;
+
+		animateButton.addEventListener('click', function(){
+			if(this.innerHTML == 'Animate'){
+				this.innerHTML = 'Stop';
+				interval = setInterval(stepMod, 500);
+			}else{
+				this.innerHTML = 'Animate';
+				clearInterval(interval);
+			}
 		});
+
+		var animateDirection = 1;//this is how quickly it steps
+		
+		function stepMod(){
+			if(modNum == 2 || modNum == 70){
+				animateDirection *= -1;
+			}
+			modNum += animateDirection;
+			document.getElementsByClassName('sliderOutput')[1].innerHTML = modNum;
+			modNumSlider.value = modNum;
+
+			drawDots(minorCirclesRad);	
+			//multiplier
+			drawLines(modNum);	
+		}
 
 		function makeDots(centerX, centerY, numDots, smallCircleRad, bigCircleRad){
 			for(var i = 0; i < numDots; i++){
@@ -92,12 +120,15 @@
 		}	
 
 		function drawLines(multiplier){
-			for(var i = 0; i < dots.length / 2; i++){
+			for(var i = 0; i < dots.length; i++){
 				var dot = dots[i];
-				/*if(i*multiplier >= dots.length){
-					return;
-				}*/
-				var connectingDot = dots[(i*multiplier) % dots.length];
+				//have to add 1 and -1 because index 0 holds the value 1
+				var connectingIndex = (i+1)*multiplier;
+				connectingIndex %= dots.length;
+				connectingIndex--;
+				if(connectingIndex == -1){connectingIndex = dots.length -1;}	
+				//var connectingDot = dots[(((i+1)*multiplier) % dots.length) - 1];
+				var connectingDot = dots[connectingIndex];
 				ctx.beginPath();
 				ctx.moveTo(dot.x, dot.y);
 				ctx.lineTo(connectingDot.x, connectingDot.y);
