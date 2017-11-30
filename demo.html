@@ -17,8 +17,8 @@
 	</div>
 	<div id="modNum">
 		<p>Modulus Number:</p>
-		<input id="modNSlider" type="range" value="3" min="2" max="70" step="1">
-		<span class="sliderOutput">3</span>
+		<input id="modNSlider" type="range" value="2" min="2" max="70" step="0.1">
+		<span class="sliderOutput">2</span>
 	</div>
 	<button id="animate">Animate</button>
 	<script>
@@ -39,7 +39,7 @@
 		ctx.fillStyle = "gray";
 	
 		var numDots = 100;
-		var modNum = 3;
+		var modNum = 2;
 
 		var majorCircleRad = height * 0.4;
 		var minorCirclesRad = 3;
@@ -49,7 +49,7 @@
 		drawLines(modNum);	
 
 		numCircleSlider.onchange = function(){	
-			numDots = parseInt(this.value);
+			numDots = parseFloat(this.value);
 			document.getElementsByClassName('sliderOutput')[0].innerHTML = numDots;
 
 			dots = [];
@@ -60,7 +60,7 @@
 		}
 
 		modNumSlider.onchange = function(){
-			modNum = parseInt(this.value);
+			modNum = parseFloat(this.value);
 			document.getElementsByClassName('sliderOutput')[1].innerHTML = modNum;
 
 			drawDots(minorCirclesRad);	
@@ -73,21 +73,21 @@
 		animateButton.addEventListener('click', function(){
 			if(this.innerHTML == 'Animate'){
 				this.innerHTML = 'Stop';
-				interval = setInterval(stepMod, 500);
+				interval = setInterval(stepMod, 200);
 			}else{
 				this.innerHTML = 'Animate';
 				clearInterval(interval);
 			}
 		});
 
-		var animateDirection = 1;//this is how quickly it steps
+		var animateDirection = 0.1;//this is how quickly it steps
 		
 		function stepMod(){
 			if((modNum <= 2 && animateDirection < 0) || (modNum >= 70 && animateDirection > 0)){
 				animateDirection *= -1;
 			}
 			modNum += animateDirection;
-			document.getElementsByClassName('sliderOutput')[1].innerHTML = modNum;
+			document.getElementsByClassName('sliderOutput')[1].innerHTML = modNum.toFixed(1);
 			modNumSlider.value = modNum;
 
 			drawDots(minorCirclesRad);	
@@ -124,7 +124,7 @@
 				var dot = dots[i];
 				//have to add 1 and -1 because index 0 holds the value 1
 				var connectingIndex = (i+1)*multiplier;
-				connectingIndex %= dots.length;
+				connectingIndex = Math.round(connectingIndex % dots.length);
 				connectingIndex--;
 				if(connectingIndex == -1){connectingIndex = dots.length -1;}	
 				//var connectingDot = dots[(((i+1)*multiplier) % dots.length) - 1];
