@@ -10,4 +10,4 @@ To run the project, simply open the `index.html` file in a web browser. The anim
 
 ## Demo Link	
 
-Enjoy the quick demo [here](https://rawgit.com/johnlk/modMultiplicationCircle/master/demo.html)
+Enjoy the quick demo [here](https://johnlk.github.io/modMultiplicationCircle)
